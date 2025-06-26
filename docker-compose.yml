@@ -1,0 +1,16 @@
+services:
+  docker-image-checker:
+    build: .
+    container_name: docker-image-checker
+    restart: unless-stopped
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - LOG_LEVEL=info
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./logs:/root/logs
+      - ./configs:/root/configs
+      - ./.env:/root/.env
+    command: ["./docker-image-checker", "--daemon"]

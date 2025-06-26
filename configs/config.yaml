@@ -1,0 +1,16 @@
+checker:
+  schedule: "0 0 * * *"  # Daily at midnight
+  exclude_images:
+    - "local/custom-image"
+    - "build-*"
+  include_build_images: false
+
+notifications:
+  telegram:
+    enabled: true
+    template_file: "templates/telegram-template.tmpl"
+
+logging:
+  file: "logs/checker.log"
+  max_size: 10
+  max_backups: 3

@@ -1,0 +1,30 @@
+FROM golang:1.24.4-bookworm
+
+WORKDIR /app
+
+# Instalar herramientas de desarrollo de Go
+RUN go install github.com/ramya-rao-a/go-outline@latest && \
+    go install github.com/cweill/gotests/gotests@latest && \
+    go install github.com/fatih/gomodifytags@latest && \
+    go install github.com/josharian/impl@latest && \
+    go install github.com/haya14busa/goplay/cmd/goplay@latest && \
+    go install github.com/go-delve/delve/cmd/dlv@latest && \
+    go install golang.org/x/tools/gopls@latest
+
+# Instalar utilidades adicionales
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+# Configurar git
+RUN git config --global --add safe.directory /app
+
+# Solo copiamos go.mod si existe, no necesitamos go.sum para el desarrollo
+COPY go.mod* ./
+# Intentamos descargar las dependencias si go.mod existe, pero no fallamos si no existe
+RUN if [ -f go.mod ]; then go mod download; fi
+
+ENV CGO_ENABLED=0
+

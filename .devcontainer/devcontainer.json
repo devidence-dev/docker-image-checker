@@ -1,0 +1,16 @@
+{
+    "name": "Docker Image Checker Development",
+    "dockerComposeFile": [
+        "docker-compose.yml"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.go"    
+            ]
+        }
+    },
+    "service": "docker-image-checker",
+    "workspaceFolder": "/app",
+    "remoteUser": "root"
+}

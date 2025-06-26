@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  docker-image-checker:
+    build: 
+      context: ..
+      dockerfile: .devcontainer/Dockerfile.dev
+    volumes:
+      - ../:/app:cached
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - docker-image-checker-go-mod-cache:/go/pkg
+    command: sleep infinity
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+
+volumes:
+  docker-image-checker-go-mod-cache:

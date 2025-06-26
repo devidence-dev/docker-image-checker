@@ -1,0 +1,30 @@
+🐳 WatchTainer 
+———————-----------
+
+{{- if .Report }}
+
+📊 Resumen:
+        - 🖥️ Host: {{ .Hostname }}
+        - 🛟 Contenedores con actualizaciones disponibles: {{ len .Report.Available }}
+        - ✅ Contenedores verificados: {{ .Report.Total }}
+        - ❌ Fallidos: {{ len .Report.Failed }}
+
+{{- if gt (len .Report.Available) 0 }}
+📦 Actualizaciones disponibles:
+{{- range .Report.Available }}
+        - 🔄 {{ .Container.Name }} ({{ .Container.ImageName }})
+        • Versión actual: {{ .CurrentVersion }}
+        • Nueva versión: {{ .LatestVersion }}
+{{- end }}
+{{- end }}
+
+{{- if gt (len .Report.Failed) 0 }}
+🚫 Fallos en:
+{{- range .Report.Failed }}
+        - {{ .Container.Name }} ({{ .Container.ImageName }}) ❌
+{{- end }}
+{{- end }}
+
+{{- else }}
+⚠️ No se pudo generar reporte de actualización.
+{{- end }}
